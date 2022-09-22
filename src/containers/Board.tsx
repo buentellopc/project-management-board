@@ -83,7 +83,7 @@ class Board extends React.Component<BoardProps, BoardState> {
             key={lane.id}
             loading={loading}
             title={lane.title}
-            tickets={data}
+            tickets={data.filter((ticket) => ticket.lane === lane.id)}
             error={error}
           />
         ))}
