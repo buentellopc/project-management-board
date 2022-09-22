@@ -1,8 +1,12 @@
 import React, { FC } from "react";
 import styled from "styled-components";
+import Ticket from "../Ticket/Ticket";
 
 interface LaneProps {
   title: string;
+  tickets: { id: number; title: string; body: string; lane: number }[];
+  loading: boolean;
+  error: string;
 }
 
 const LaneWrapper = styled.div`
@@ -26,9 +30,23 @@ const Title = styled.h2`
   border-bottom: 1px solid darkGray;
 `;
 
-const Lane: FC<LaneProps> = ({ title }) => (
+const TicketsWrapper = styled.div`
+  padding: 5%;
+`;
+
+const Alert = styled.div`
+  text-align: center;
+`;
+
+const Lane = ({ title, loading, tickets, error }: LaneProps) => (
   <LaneWrapper>
     <Title>{title}</Title>
+    {(loading || error) && <Alert>{loading ? "Loading..." : error}</Alert>}
+    <TicketsWrapper>
+      {tickets.map((ticket) => (
+        <Ticket key={ticket.id} data={ticket} />
+      ))}
+    </TicketsWrapper>
   </LaneWrapper>
 );
 
