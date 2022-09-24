@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../components/Header/Header";
 import Board from "./Board";
 import styled, { createGlobalStyle } from "styled-components";
+import BoardCopy from "./BoardCopy";
 
 const GlobalStyle = createGlobalStyle`
 body {
@@ -25,7 +26,8 @@ const App = () => {
       <AppWrapper>
         <GlobalStyle />
         <Header />
-        <Board />
+        {/* <Board /> */}
+        <BoardCopy />
       </AppWrapper>
     </>
   );
