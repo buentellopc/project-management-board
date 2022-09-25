@@ -47,7 +47,6 @@ const BoardCopy = (props: BoardProps) => {
             error={String(loading)}
           />
         ))}
-      hey
     </BoardWrapper>
   );
 };
