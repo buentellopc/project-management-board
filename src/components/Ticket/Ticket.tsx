@@ -3,9 +3,10 @@ import styled from "styled-components";
 
 interface TicketProps {
   data: { id: number; title: string; body: string; lane: number };
+  marginRight?: boolean;
 }
 
-const TitleWrapper = styled.div`
+const TicketWrapper = styled("div")<{ marginRight?: boolean }>`
   background-color: darkGray;
   padding: 20px;
   border-radius 20px;
@@ -13,6 +14,7 @@ const TitleWrapper = styled.div`
   &:not(:last-child) {
     margin-bottom: 5%
   }
+  margin-right: ${(props) => (!!props.marginRight ? "1%" : "0")}
 `;
 
 const Title = styled.h3`
@@ -28,11 +30,11 @@ const Ticket = (props: TicketProps) => {
   const { id, title, body } = props.data;
 
   return (
-    <TitleWrapper>
+    <TicketWrapper marginRight={props.marginRight}>
       <em>{id}</em>
       <Title>{title}</Title>
       <Body>{body}</Body>
-    </TitleWrapper>
+    </TicketWrapper>
   );
 };
 

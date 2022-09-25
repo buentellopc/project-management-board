@@ -41,7 +41,8 @@ const Alert = styled.div`
 const Lane = ({ title, loading, tickets, error }: LaneProps) => (
   <LaneWrapper>
     <Title>{title}</Title>
-    {(loading || error) && <Alert>{loading ? "Loading..." : error}</Alert>}
+    {/* Wipe error or add error handling (error is receiving loading value) */}
+    {loading && <Alert>Loading...</Alert>}
     <TicketsWrapper>
       {tickets.map((ticket) => (
         <Ticket key={ticket.id} data={ticket} />
