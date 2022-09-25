@@ -11,7 +11,7 @@ const TitleWrapper = styled.div`
   border-radius 20px;
 
   &:not(:last-child) {
-    margin: 5%
+    margin-bottom: 5%
   }
 `;
 
