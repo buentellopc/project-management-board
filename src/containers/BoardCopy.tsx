@@ -16,17 +16,41 @@ const BoardWrapper = styled.div`
 
 type BoardProps = {};
 
+// git stash and create a new branch per feature
+
 const BoardCopy = (props: BoardProps) => {
+  const [isLoading, setIsloading] = useState(true);
+
+  const [tickets, setTickets] = useState<
+    {
+      id: number;
+      title: string;
+      body: string;
+      lane: number;
+    }[]
+  >(
+    {} as {
+      id: number;
+      title: string;
+      body: string;
+      lane: number;
+    }[]
+  );
   const [loading, data] = useFetch("../../assets/data.json");
   console.log(loading);
 
-  // useFetch, because of useEffect not retrieves immediately the data
-  // that is why data.map is not function was being rendered, initially
-  // no data has been fetched
-  if (loading === false) {
-    let tickets = data.map((ticket) => ticket.title);
-    console.log(tickets);
-  }
+  useEffect(() => {
+    console.log("inside use effect");
+
+    if (!loading) {
+      console.log("inside use effect, should log just one time");
+
+      setTickets(data);
+      setIsloading(false);
+    }
+  }, [loading]);
+
+  console.log("the third log use have all tickets", tickets);
 
   const lanes = [
     { id: 1, title: "To Do" },
@@ -35,18 +59,52 @@ const BoardCopy = (props: BoardProps) => {
     { id: 4, title: "Done" },
   ];
 
+  const onDragStart = (e: React.DragEvent<HTMLElement>, id: any) => {
+    e.dataTransfer.setData("id", id);
+  };
+
+  const onDragOver = (e: React.DragEvent<HTMLDivElement>, id: any) => {
+    e.preventDefault();
+  };
+
+  const onDrop = (e: React.DragEvent<HTMLElement>, laneId: any) => {
+    const id = e.dataTransfer.getData("id");
+
+    const newTickets = tickets.filter((ticket) => {
+      if (ticket.id === parseInt(id)) {
+        ticket.lane = laneId;
+        console.log(ticket);
+      }
+      return ticket;
+    });
+    console.log(newTickets);
+
+    setTickets((prev) => [...newTickets]);
+  };
+
+  if (isLoading) {
+    return (
+      <section>
+        <p>Loading..</p>
+      </section>
+    );
+  }
+
   return (
     <BoardWrapper>
-      {!loading &&
-        lanes.map((lane) => (
-          <Lane
-            key={lane.id}
-            title={lane.title}
-            tickets={data.filter((ticket) => ticket.lane === lane.id)}
-            loading={loading}
-            error={String(loading)}
-          />
-        ))}
+      {lanes.map((lane) => (
+        <Lane
+          key={lane.id}
+          laneId={lane.id}
+          title={lane.title}
+          tickets={tickets.filter((ticket) => ticket.lane === lane.id)}
+          loading={loading}
+          error={String(loading)}
+          onDragStart={onDragStart}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
+        />
+      ))}
     </BoardWrapper>
   );
 };

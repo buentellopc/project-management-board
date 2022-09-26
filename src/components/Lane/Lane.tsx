@@ -7,6 +7,10 @@ interface LaneProps {
   tickets: { id: number; title: string; body: string; lane: number }[];
   loading: boolean;
   error: string;
+  onDragStart: (e: React.DragEvent<HTMLElement>, id: string) => void;
+  onDragOver: any;
+  laneId: any;
+  onDrop: any;
 }
 
 const LaneWrapper = styled.div`
@@ -38,17 +42,30 @@ const Alert = styled.div`
   text-align: center;
 `;
 
-const Lane = ({ title, loading, tickets, error }: LaneProps) => (
-  <LaneWrapper>
-    <Title>{title}</Title>
-    {/* Wipe error or add error handling (error is receiving loading value) */}
-    {loading && <Alert>Loading...</Alert>}
-    <TicketsWrapper>
-      {tickets.map((ticket) => (
-        <Ticket key={ticket.id} data={ticket} />
-      ))}
-    </TicketsWrapper>
-  </LaneWrapper>
-);
+const Lane = ({
+  title,
+  loading,
+  tickets,
+  error,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  laneId,
+}: LaneProps) => {
+  console.log("hihi");
+
+  return (
+    <LaneWrapper onDragOver={onDragOver} onDrop={(e) => onDrop(e, laneId)}>
+      <Title>{title}</Title>
+      {/* Wipe error or add error handling (error is receiving loading value) */}
+      {loading && <Alert>Loading...</Alert>}
+      <TicketsWrapper>
+        {tickets.map((ticket) => (
+          <Ticket key={ticket.id} data={ticket} onDragStart={onDragStart} />
+        ))}
+      </TicketsWrapper>
+    </LaneWrapper>
+  );
+};
 
 export default Lane;

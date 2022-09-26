@@ -78,7 +78,7 @@ class Board extends React.Component<BoardProps, BoardState> {
 
     return (
       <BoardWrapper>
-        {lanes.map((lane) => (
+        {/* {lanes.map((lane) => (
           <Lane
             key={lane.id}
             loading={loading}
@@ -86,7 +86,7 @@ class Board extends React.Component<BoardProps, BoardState> {
             tickets={data.filter((ticket) => ticket.lane === lane.id)}
             error={error}
           />
-        ))}
+        ))} */}
       </BoardWrapper>
     );
   }

@@ -4,6 +4,7 @@ import styled from "styled-components";
 interface TicketProps {
   data: { id: number; title: string; body: string; lane: number };
   marginRight?: boolean;
+  onDragStart?: (e: React.DragEvent<HTMLElement>, id: string) => void;
 }
 
 const TicketWrapper = styled("div")<{ marginRight?: boolean }>`
@@ -30,7 +31,11 @@ const Ticket = (props: TicketProps) => {
   const { id, title, body } = props.data;
 
   return (
-    <TicketWrapper marginRight={props.marginRight}>
+    <TicketWrapper
+      marginRight={props.marginRight}
+      draggable
+      onDragStart={(e) => props.onDragStart!(e, id.toString())}
+    >
       <em>{id}</em>
       <Title>{title}</Title>
       <Body>{body}</Body>
